@@ -1,8 +1,32 @@
 import React from 'react';
+import Accessory from '../../components/Accessory';
 import BackButton from '../../components/BackButton';
 import ImageSlider from '../../components/ImageSlider';
 
-import { Container, Header, CarImages } from './styles';
+import SpeedSvg from '../../assets/speed.svg';
+import AccelerationSvg from '../../assets/acceleration.svg';
+import ForceSvg from '../../assets/force.svg';
+import GasolineSvg from '../../assets/gasoline.svg';
+import ExchangeSvg from '../../assets/exchange.svg';
+import PeopleSvg from '../../assets/people.svg';
+
+import {
+  Container,
+  Header,
+  CarImages,
+  Content,
+  Details,
+  Description,
+  Brand,
+  Name,
+  Rent,
+  Period,
+  Price,
+  About,
+  Accessories,
+  Footer,
+} from './styles';
+import Button from '../../components/Button';
 
 const CarDetails: React.FC = () => {
   return (
@@ -17,6 +41,43 @@ const CarDetails: React.FC = () => {
           ]}
         />
       </CarImages>
+
+      <Content>
+        <Details>
+          <Description>
+            <Brand>Brand</Brand>
+            <Name>Name</Name>
+          </Description>
+
+          <Rent>
+            <Period>Ao dia</Period>
+            <Price>R$ 580</Price>
+          </Rent>
+        </Details>
+
+        <Accessories>
+          <Accessory name="380km/h" icon={SpeedSvg} />
+          <Accessory name="3.2s" icon={AccelerationSvg} />
+          <Accessory name="800 hp" icon={ForceSvg} />
+          <Accessory name="Gasolina" icon={GasolineSvg} />
+          <Accessory name="Auto" icon={ExchangeSvg} />
+          <Accessory name="2 pessoas" icon={PeopleSvg} />
+        </Accessories>
+
+        <About>
+          Qui incididunt tempor aute fugiat qui Lorem irure elit velit quis
+          enim. Sunt Lorem minim magna aliquip velit aliquip veniam ullamco in
+          magna enim sit. Elit quis Lorem magna reprehenderit dolore duis veniam
+          proident laborum proident cillum exercitation quis esse. Qui esse ad
+          cupidatat laborum nostrud pariatur nulla non labore labore do minim
+          aliquip excepteur. Ex ad veniam officia sunt excepteur ex ad
+          adipisicing. Et consectetur et nostrud velit id anim.
+        </About>
+      </Content>
+
+      <Footer>
+        <Button title="Confirmar" />
+      </Footer>
     </Container>
   );
 };
