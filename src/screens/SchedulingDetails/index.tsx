@@ -28,6 +28,14 @@ import {
   Footer,
   RentalPeriod,
   CalendarIcon,
+  DateInfo,
+  DateTitle,
+  DateValue,
+  RentalPrice,
+  RentalPriceLabel,
+  RentalPriceDetails,
+  RentalPriceQuota,
+  RentalPriceTotal,
 } from './styles';
 import Button from '../../components/Button';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -78,7 +86,31 @@ const SchedulingDetails: React.FC = () => {
               color={theme.colors.shape}
             />
           </CalendarIcon>
+
+          <DateInfo>
+            <DateTitle>DE</DateTitle>
+            <DateValue>01/01/2000</DateValue>
+          </DateInfo>
+
+          <Feather
+            name="chevron-right"
+            size={RFValue(24)}
+            color={theme.colors.text}
+          />
+
+          <DateInfo>
+            <DateTitle>DE</DateTitle>
+            <DateValue>01/01/2000</DateValue>
+          </DateInfo>
         </RentalPeriod>
+
+        <RentalPrice>
+          <RentalPriceLabel>TOTAL</RentalPriceLabel>
+          <RentalPriceDetails>
+            <RentalPriceQuota>R$ 580 3x diárias</RentalPriceQuota>
+            <RentalPriceTotal>R$ 2.900</RentalPriceTotal>
+          </RentalPriceDetails>
+        </RentalPrice>
       </Content>
 
       <Footer>
