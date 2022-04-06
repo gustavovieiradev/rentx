@@ -27,8 +27,21 @@ import {
   Footer,
 } from './styles';
 import Button from '../../components/Button';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../interfaces';
+
+type CarDetailsScreenProp = StackNavigationProp<
+  RootStackParamList,
+  'CarDetails'
+>;
 
 const CarDetails: React.FC = () => {
+  const navigation = useNavigation<CarDetailsScreenProp>();
+  function handleConfirmDetail(): void {
+    navigation.navigate('Scheduling');
+  }
+
   return (
     <Container>
       <Header>
@@ -76,7 +89,10 @@ const CarDetails: React.FC = () => {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button
+          title="Escolha o período do aluguel"
+          onPress={handleConfirmDetail}
+        />
       </Footer>
     </Container>
   );

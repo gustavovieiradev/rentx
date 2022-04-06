@@ -18,8 +18,20 @@ import {
 import { StatusBar, Text } from 'react-native';
 import Button from '../../components/Button';
 import Calendar from '../../components/Calendar';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../interfaces';
+
+type SchedulingScreenProp = StackNavigationProp<
+  RootStackParamList,
+  'Scheduling'
+>;
 
 const Scheduling: React.FC = () => {
+  const navigation = useNavigation<SchedulingScreenProp>();
+  function handleConfirmDetail(): void {
+    navigation.navigate('SchedulingDetails');
+  }
   const theme = useTheme();
   return (
     <Container>
@@ -54,7 +66,7 @@ const Scheduling: React.FC = () => {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button title="Confirmar" onPress={handleConfirmDetail} />
       </Footer>
     </Container>
   );

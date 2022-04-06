@@ -40,8 +40,20 @@ import {
 import Button from '../../components/Button';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { useTheme } from 'styled-components';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../interfaces';
+import { useNavigation } from '@react-navigation/native';
+
+type SchedulingDetailsScreenProp = StackNavigationProp<
+  RootStackParamList,
+  'SchedulingDetails'
+>;
 
 const SchedulingDetails: React.FC = () => {
+  const navigation = useNavigation<SchedulingDetailsScreenProp>();
+  function handleConfirmDetail(): void {
+    navigation.navigate('SchedulingComplete');
+  }
   const theme = useTheme();
   return (
     <Container>
@@ -114,7 +126,11 @@ const SchedulingDetails: React.FC = () => {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" />
+        <Button
+          title="Alugar agora!"
+          color={theme.colors.success}
+          onPress={handleConfirmDetail}
+        />
       </Footer>
     </Container>
   );
