@@ -95,6 +95,11 @@ const SchedulingDetails: React.FC = () => {
     };
 
     try {
+      await api.post('schedules_bycars', {
+        user_id: 1,
+        car,
+      });
+
       await api.put(`schedules_bycars/${car.id}`, {
         id: car.id,
         unavailable_dates,
