@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTheme } from 'styled-components';
 import BackButton from '../../components/BackButton';
 
@@ -17,10 +17,12 @@ import {
 } from './styles';
 import { StatusBar, Text } from 'react-native';
 import Button from '../../components/Button';
-import Calendar from '../../components/Calendar';
+import Calendar, { MarkedDateProps } from '../../components/Calendar';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../interfaces';
+import { DateData } from 'react-native-calendars';
+import { generateInterval } from '../../components/Calendar/generateInterval';
 
 type SchedulingScreenProp = StackNavigationProp<
   RootStackParamList,
@@ -28,6 +30,12 @@ type SchedulingScreenProp = StackNavigationProp<
 >;
 
 const Scheduling: React.FC = () => {
+  const [lastSelectedDate, setLastSelectedDate] = useState<DateData>(
+    {} as DateData
+  );
+  const [markedDates, setMarkedDates] = useState<MarkedDateProps>(
+    {} as MarkedDateProps
+  );
   const navigation = useNavigation<SchedulingScreenProp>();
   function handleConfirmDetail(): void {
     navigation.navigate('SchedulingDetails');
@@ -35,6 +43,24 @@ const Scheduling: React.FC = () => {
   const theme = useTheme();
   function handleBack() {
     navigation.goBack();
+  }
+
+  function handleChangeDate(date: DateData) {
+    let start = !lastSelectedDate.timestamp ? date : lastSelectedDate;
+    let end = date;
+
+    if (start.timestamp > end.timestamp) {
+      start = end;
+      end = start;
+    }
+
+    setLastSelectedDate(end);
+
+    const interval = generateInterval(start, end);
+
+    console.log(interval);
+
+    setMarkedDates(interval);
   }
   return (
     <Container>
@@ -65,7 +91,7 @@ const Scheduling: React.FC = () => {
       </Header>
 
       <Content>
-        <Calendar />
+        <Calendar markedDates={markedDates} onDayPress={handleChangeDate} />
       </Content>
 
       <Footer>
