@@ -34,9 +34,6 @@ type CarDetailsScreenRouteProp = RouteProp<RootStackParamList, 'CarDetails'>;
 
 const CarDetails: React.FC = () => {
   const navigation = useNavigation<CarDetailsScreenProp>();
-  function handleConfirmDetail(): void {
-    navigation.navigate('Scheduling');
-  }
 
   const route = useRoute<CarDetailsScreenRouteProp>();
 
@@ -44,6 +41,10 @@ const CarDetails: React.FC = () => {
 
   function handleBack() {
     navigation.goBack();
+  }
+
+  function handleConfirmDetail(): void {
+    navigation.navigate('Scheduling', { car });
   }
 
   return (
