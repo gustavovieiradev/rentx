@@ -53,6 +53,7 @@ const Scheduling: React.FC = () => {
   const navigation = useNavigation<SchedulingScreenProp>();
   const route = useRoute<SchedulingScreenRouteProp>();
   const { car } = route.params;
+  const [loading, setLoading] = useState(true);
 
   function handleConfirmDetail(): void {
     if (!rentalPeriod.start || !rentalPeriod.end) {
@@ -63,6 +64,14 @@ const Scheduling: React.FC = () => {
       car,
       dates: Object.keys(markedDates),
     });
+  }
+
+  function isButtonEnabled() {
+    if (!rentalPeriod.start || !rentalPeriod.end) {
+      return false;
+    }
+
+    return true;
   }
 
   const theme = useTheme();
@@ -131,7 +140,11 @@ const Scheduling: React.FC = () => {
       </Content>
 
       <Footer>
-        <Button title="Confirmar" onPress={handleConfirmDetail} />
+        <Button
+          title="Confirmar"
+          onPress={handleConfirmDetail}
+          enabled={!!rentalPeriod.endFormatted}
+        />
       </Footer>
     </Container>
   );

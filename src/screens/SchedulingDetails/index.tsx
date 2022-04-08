@@ -58,13 +58,11 @@ interface RentalPeriod {
 }
 
 const SchedulingDetails: React.FC = () => {
+  const [loading, setLoading] = useState(false);
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
     {} as RentalPeriod
   );
   const navigation = useNavigation<SchedulingDetailsScreenProp>();
-  function handleConfirmDetail(): void {
-    navigation.navigate('SchedulingComplete');
-  }
   function handleBack() {
     navigation.goBack();
   }
@@ -87,11 +85,17 @@ const SchedulingDetails: React.FC = () => {
   }, []);
 
   async function handleConfirmRental() {
+    setLoading(true);
     const schedulesByCar = await api.get(`schedules_bycars/${car.id}`);
 
     const unavailable_dates = {
       ...schedulesByCar.data.unavailable_dates,
       ...dates,
+      startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+      endDate: format(
+        getPlatformDate(new Date(dates[dates.length - 1])),
+        'dd/MM/yyyy'
+      ),
     };
 
     try {
@@ -104,9 +108,11 @@ const SchedulingDetails: React.FC = () => {
         id: car.id,
         unavailable_dates,
       });
+      setLoading(false);
       navigation.navigate('SchedulingComplete');
     } catch (err) {
       console.log(err);
+      setLoading(false);
       Alert.alert('Não foi possível confirmar o agendamento');
     }
   }
@@ -185,6 +191,7 @@ const SchedulingDetails: React.FC = () => {
           title="Alugar agora!"
           color={theme.colors.success}
           onPress={handleConfirmRental}
+          loading={loading}
         />
       </Footer>
     </Container>
