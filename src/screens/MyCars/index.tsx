@@ -24,6 +24,7 @@ import {
   CarFooterDate,
 } from './styles';
 import Load from '../../components/Load';
+import LoadAnimation from '../../components/LoadAnimation';
 
 interface CarProps {
   id: string;
@@ -82,7 +83,7 @@ const MyCars: React.FC = () => {
       </Header>
 
       {loading ? (
-        <Load />
+        <LoadAnimation />
       ) : (
         <Content>
           <Appointments>

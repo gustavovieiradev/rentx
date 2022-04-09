@@ -1,9 +1,18 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'react-native';
+import { BackHandler, StatusBar } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Ionicons } from '@expo/vector-icons';
+
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+
+const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
 import Logo from '../../assets/logo.svg';
 import Car from '../../components/Car';
@@ -21,6 +30,8 @@ import {
   TotalCars,
 } from './styles';
 import { useTheme } from 'styled-components';
+import { PanGestureHandler, RectButton } from 'react-native-gesture-handler';
+import LoadAnimation from '../../components/LoadAnimation';
 
 type HomeScreenProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -31,6 +42,33 @@ const Home: React.FC = () => {
   function handleCarDetails(car: CarDTO): void {
     navigation.navigate('CarDetails', { car });
   }
+
+  const positionX = useSharedValue(0);
+  const positionY = useSharedValue(0);
+
+  const myCarsButtonStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: positionX.value },
+        { translateY: positionY.value },
+      ],
+    };
+  });
+
+  const onGestureEvent = useAnimatedGestureHandler({
+    onStart(_, ctx: any) {
+      ctx.positionX = positionX.value;
+      ctx.positionY = positionY.value;
+    },
+    onActive(event, ctx: any) {
+      positionX.value = ctx.positionX + event.translationX;
+      positionY.value = ctx.positionY + event.translationY;
+    },
+    onEnd() {
+      positionX.value = withSpring(0);
+      positionY.value = withSpring(0);
+    },
+  });
 
   const theme = useTheme();
 
@@ -48,6 +86,12 @@ const Home: React.FC = () => {
     fetchCars();
   }, []);
 
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      return true;
+    });
+  });
+
   function handleMyCars() {
     navigation.navigate('MyCars');
   }
@@ -62,12 +106,12 @@ const Home: React.FC = () => {
       <Header>
         <HeaderContent>
           <Logo width={RFValue(108)} height={RFValue(12)} />
-          <TotalCars>Total de 12 carros</TotalCars>
+          {!loading && <TotalCars>Total de {cars.length} carros</TotalCars>}
         </HeaderContent>
       </Header>
 
       {loading ? (
-        <Load />
+        <LoadAnimation />
       ) : (
         <CarList
           data={cars}
@@ -77,10 +121,22 @@ const Home: React.FC = () => {
           )}
         />
       )}
-
-      <MyCarsButton onPress={handleMyCars}>
-        <Ionicons name="ios-car-sport" size={32} color={theme.colors.shape} />
-      </MyCarsButton>
+      <PanGestureHandler onGestureEvent={onGestureEvent}>
+        <Animated.View
+          style={[
+            myCarsButtonStyle,
+            { position: 'absolute', bottom: 13, right: 22 },
+          ]}
+        >
+          <MyCarsButton onPress={handleMyCars}>
+            <Ionicons
+              name="ios-car-sport"
+              size={32}
+              color={theme.colors.shape}
+            />
+          </MyCarsButton>
+        </Animated.View>
+      </PanGestureHandler>
     </Container>
   );
 };
