@@ -8,6 +8,8 @@ import Scheduling from '../screens/Scheduling';
 import SchedulingComplete from '../screens/SchedulingComplete';
 import SchedulingDetails from '../screens/SchedulingDetails';
 import Signin from '../screens/Signin';
+import SignupFirstStep from '../screens/Signup/SignupFirstStep';
+import SignupSecondStep from '../screens/Signup/SignupSecondStep';
 import Splash from '../screens/Splash';
 
 const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
@@ -17,6 +19,8 @@ const StackRoutes: React.FC = () => {
     <Navigator screenOptions={{ headerShown: false }} initialRouteName="Signin">
       <Screen name="Splash" component={Splash} />
       <Screen name="Signin" component={Signin} />
+      <Screen name="SignupFirstStep" component={SignupFirstStep} />
+      <Screen name="SignupSecondStep" component={SignupSecondStep} />
       <Screen
         name="Home"
         component={Home}

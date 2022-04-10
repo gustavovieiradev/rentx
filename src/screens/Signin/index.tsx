@@ -8,11 +8,17 @@ import PasswordInput from '../../components/PasswordInput';
 import * as Yup from 'yup';
 
 import { Container, Footer, Form, Header, SubTitle, Title } from './styles';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../interfaces';
+
+type SigninScreenProp = StackNavigationProp<RootStackParamList, 'Signin'>;
 
 const Signin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const theme = useTheme();
+  const navigation = useNavigation<SigninScreenProp>();
 
   async function handleSignin() {
     try {
@@ -34,6 +40,10 @@ const Signin: React.FC = () => {
         'Ocorreu um erro ao fazer o login'
       );
     }
+  }
+
+  function handleNewAccount() {
+    navigation.navigate('SignupFirstStep');
   }
 
   return (
@@ -81,6 +91,7 @@ const Signin: React.FC = () => {
             <Button title="Login" onPress={handleSignin} />
             <Button
               title="Criar conta gratuita"
+              onPress={handleNewAccount}
               light
               color={theme.colors.background_secundary}
             />
