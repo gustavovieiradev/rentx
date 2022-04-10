@@ -8,4 +8,5 @@ export type RootStackParamList = {
   SchedulingComplete: undefined;
   MyCars: undefined;
   Splash: undefined;
+  Signin: undefined;
 };
