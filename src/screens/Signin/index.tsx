@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, StatusBar } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useTheme } from 'styled-components';
@@ -9,6 +9,8 @@ import PasswordInput from '../../components/PasswordInput';
 import { Container, Footer, Form, Header, SubTitle, Title } from './styles';
 
 const Signin: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const theme = useTheme();
   return (
     <KeyboardAvoidingView behavior="position" enabled>
@@ -37,6 +39,8 @@ const Signin: React.FC = () => {
               keyboardType="email-address"
               autoCorrect={false}
               autoCapitalize="none"
+              onChangeText={setEmail}
+              value={email}
             />
 
             <PasswordInput
@@ -44,6 +48,8 @@ const Signin: React.FC = () => {
               placeholder="Senha"
               autoCorrect={false}
               autoCapitalize="none"
+              onChangeText={setPassword}
+              value={password}
             />
           </Form>
 
